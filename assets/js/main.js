@@ -181,7 +181,7 @@
         // Skip if user prefers reduced motion
         if (prefersReducedMotion) return;
 
-        const revealElements = document.querySelectorAll('.section, .pricing-card, .project-card, .offer__card, .process__step');
+        const revealElements = document.querySelectorAll('.section, .pricing-card-wrapper, .project-card, .offer__card, .process__step');
 
         if (!revealElements.length) return;
 
@@ -304,6 +304,58 @@
     };
 
     // ========================================
+    // Pricing Card Flip
+    // ========================================
+    const initPricingCardFlip = () => {
+        const detailBtns = document.querySelectorAll('.pricing-card__details-btn');
+        const closeBtns = document.querySelectorAll('.pricing-card__close-btn');
+
+        console.log('Flip init - Found detail buttons:', detailBtns.length);
+        console.log('Flip init - Found close buttons:', closeBtns.length);
+
+        // Open card (flip to back)
+        detailBtns.forEach((btn, index) => {
+            console.log('Adding click listener to detail btn', index);
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Detail button clicked!');
+                const card = btn.closest('.pricing-card');
+                console.log('Found card:', card);
+                if (card) {
+                    card.classList.add('is-flipped');
+                    console.log('Added is-flipped class');
+                }
+            });
+        });
+
+        // Close card (flip to front)
+        closeBtns.forEach((btn, index) => {
+            console.log('Adding click listener to close btn', index);
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Close button clicked!');
+                const card = btn.closest('.pricing-card');
+                if (card) {
+                    card.classList.remove('is-flipped');
+                    console.log('Removed is-flipped class');
+                }
+            });
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const flippedCards = document.querySelectorAll('.pricing-card.is-flipped');
+                flippedCards.forEach(card => {
+                    card.classList.remove('is-flipped');
+                });
+            }
+        });
+    };
+
+    // ========================================
     // Active Navigation Link Highlight
     // ========================================
     const initActiveNavHighlight = () => {
@@ -353,6 +405,7 @@
         initDynamicYear();
         initFormEnhancement();
         initActiveNavHighlight();
+        initPricingCardFlip();
     };
 
     // Run when DOM is ready
