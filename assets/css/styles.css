@@ -1547,6 +1547,10 @@ h3 {
 }
 
 /* Form Feedback */
+.form__feedback[hidden] {
+  display: none;
+}
+
 .form__feedback {
   display: flex;
   align-items: center;
