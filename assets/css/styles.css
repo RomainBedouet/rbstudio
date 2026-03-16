@@ -347,7 +347,7 @@ h3 {
   right: 0;
   z-index: 100;
   height: var(--header-height);
-  background-color: rgba(133, 194, 255, 0.95);
+  background-color: rgb(133, 194, 255);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--color-border-light);
 }
@@ -362,10 +362,20 @@ h3 {
 .header__logo {
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  background-color: rgb(133, 194, 255);
+  backdrop-filter: blur(10px);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  margin-top: 16px;
 }
 
 .logo__img {
-  height: 40px;
+  height: 70px;
   width: auto;
 }
 
@@ -625,11 +635,30 @@ h3 {
 
 .hero__image-wrapper {
   position: relative;
+  border-radius: var(--radius-2xl);
+  border: 1.5px solid rgba(255,255,255,0.25);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.18), 0 0 0 6px rgba(99,102,241,0.10);
+  overflow: hidden;
 }
 
 .hero__image {
   border-radius: var(--radius-2xl);
   box-shadow: var(--shadow-xl);
+  filter: blur(3px);
+}
+
+.hero__image-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+  pointer-events: none;
+  white-space: nowrap;
 }
 
 .hero__badge {
@@ -725,6 +754,7 @@ h3 {
 .prestations__grid {
   display: grid;
   gap: var(--space-6);
+  padding-top: var(--space-5);
 }
 
 @media (min-width: 768px) {
@@ -741,11 +771,14 @@ h3 {
 
 /* Flip Card Wrapper */
 .pricing-card-wrapper {
+  position: relative;
   perspective: 1000px;
+  height: 100%;
 }
 
 .pricing-card {
   position: relative;
+  height: 100%;
   transform-style: preserve-3d;
   transition: transform 0.6s ease;
 }
@@ -768,6 +801,7 @@ h3 {
 
 .pricing-card__front {
   position: relative;
+  height: 100%;
 }
 
 .pricing-card__back {
@@ -891,6 +925,7 @@ h3 {
   top: calc(-1 * var(--space-3));
   left: 50%;
   transform: translateX(-50%);
+  z-index: 5;
   padding: var(--space-1) var(--space-4);
   background-color: var(--color-primary);
   color: var(--color-white);
@@ -1509,6 +1544,32 @@ h3 {
   margin-bottom: 0;
   font-weight: 400;
   cursor: pointer;
+}
+
+/* Form Feedback */
+.form__feedback {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  margin-top: var(--space-4);
+}
+
+.form__feedback--success {
+  background-color: #f0fdf4;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.form__feedback--error {
+  background-color: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+.form__feedback p {
+  margin: 0;
 }
 
 /* Contact Benefits */

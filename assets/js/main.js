@@ -266,29 +266,41 @@
 
         if (!form) return;
 
-        // Enhance form submission with mailto
-        form.addEventListener('submit', (e) => {
+        const submitBtn = form.querySelector('[type="submit"]');
+        const successMsg = document.getElementById('form-success');
+        const errorMsg = document.getElementById('form-error');
+
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Envoi en cours…';
+
             const formData = new FormData(form);
-            const name = formData.get('name') || '';
-            const email = formData.get('email') || '';
-            const activity = formData.get('activity') || '';
-            const city = formData.get('city') || '';
-            const message = formData.get('message') || '';
+            const object = Object.fromEntries(formData);
+            const json = JSON.stringify(object);
 
-            // Build email body
-            const subject = encodeURIComponent('Demande de devis — RB Studio');
-            const body = encodeURIComponent(
-                `Nom: ${name}\n` +
-                `Email: ${email}\n` +
-                `Activité: ${activity}\n` +
-                `Ville: ${city}\n\n` +
-                `Message:\n${message}`
-            );
+            try {
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: json
+                });
 
-            // Open mailto link
-            window.location.href = `mailto:romainbedouetdev@gmail.com?subject=${subject}&body=${body}`;
+                const result = await response.json();
+
+                if (result.success) {
+                    form.reset();
+                    form.hidden = true;
+                    if (successMsg) successMsg.hidden = false;
+                } else {
+                    throw new Error();
+                }
+            } catch {
+                if (errorMsg) errorMsg.hidden = false;
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Envoyer ma demande';
+            }
         });
 
         // Add visual feedback on input focus
